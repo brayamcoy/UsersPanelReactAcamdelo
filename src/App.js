@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Form from './components/form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  constructor(){
+    super();
+    this.state = {
+     users: [],
+     form: {}
+    }
+  
+  }
+
+  //Se ejecuta cuando se renderiza este componente
+  componentDidMount(){
+    //Primer argumento -> url de la petición que queremos realizar
+    //Segundo argumento -> opciones para la petición (headers, body, method)
+    let url = 'https://academlo-api-users.herokuapp.com/users';
+    fetch(url)
+    .then((response) => {
+      return response.json(); //Regresa una promesa para poder transformar/interpretar esos datos en formato json      
+    })
+    .then((myJson) => {
+      this.setState({users: myJson.data}); //Respuesta de la petición que ya podremos manejar con javascript
+    })
+    .catch(error => console.log(error));
+  }
+
+  render(){
+    return (
+      <div className="App">
+      < Form usuarios={this.state.users}/>
+      </div>
+    );
+  }
 }
 
 export default App;
