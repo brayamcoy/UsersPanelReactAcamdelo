@@ -73,7 +73,10 @@ class Panel extends React.Component {
         method: "DELETE"
       })
         .then(response => response.json())
-        .then(results => this.getUsers())
+        .then(results => {
+          this.toastSucces();
+          this.getUsers();
+        })
         .catch(error => console.log(error));
     }
   
@@ -189,7 +192,7 @@ class Panel extends React.Component {
             {this.showFormRender()}
             </Col>
             <Col xs={4} md={8}>
-            <Table striped bordered hover responsive="md">
+            <Table striped bordered hover responsive="md" size="sm">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -203,8 +206,8 @@ class Panel extends React.Component {
                 {this.state.users.map((user, i) => {
               return (
                 <tbody className="table-hover">
-                  <tr>
-                    <td key={i}>{i}</td>
+                  <tr key={user.id}>
+                    <td >{i +1}</td>
                     <td >{user.name}</td>
                     <td >{user.lastname}</td>
                     <td >{user.email}</td>
